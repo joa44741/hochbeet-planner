@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'secure', pathMatch: 'full' },
+  { path: '', redirectTo: 'planner', pathMatch: 'full' },
   {
-    path: 'secure',
+    path: 'planner',
     loadComponent: () =>
-      import('./secure/secure.component').then((mod) => mod.SecureComponent)
+      import('./hochbeet-drag-and-drop/hochbeet-drag-and-drop.component').then(
+        (mod) => mod.HochbeetDragAndDropComponent
+      )
   }
 ];

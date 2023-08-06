@@ -1,0 +1,10 @@
+<div class="mx-4 px-4 my-4 py-4" style="height: 100%">
+  <amplify-authenticator [socialProviders]="['google']">
+    <ng-template
+      amplifySlot="authenticated"
+      let-user="user"
+      let-signOut="signOut"
+    >
+    </ng-template>
+  </amplify-authenticator>
+</div>

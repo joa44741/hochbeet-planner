@@ -1,9 +1,45 @@
-<amplify-authenticator [socialProviders]="['google']">
-  <ng-template
-    amplifySlot="authenticated"
-    let-user="user"
-    let-signOut="signOut"
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="grow example-app-name">Hochbeet Planner</h1>
+    <span class="flexExpand"></span>
+    <button
+      mat-raised-button
+      (click)="isLoggedIn ? logout() : login()"
+      class="content-end"
+    >
+      {{ isLoggedIn ? 'Logout' : 'Login' }}
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    style="height: 100%"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
   >
-    <router-outlet></router-outlet>
-  </ng-template>
-</amplify-authenticator>
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+      class="pt-4 px-4"
+    >
+      <mat-nav-list *ngIf="isLoggedIn; else loggedOutItems">
+        <a mat-list-item routerLink="/planner">Planner</a>
+        <a mat-list-item routerLink="/own-plants">Eigene Pflanzen</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="px-4 pt-4">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+<ng-template #loggedOutItems>
+  <mat-nav-list>
+    <a mat-list-item routerLink="/planner">Beet Planner</a>
+  </mat-nav-list>
+</ng-template>

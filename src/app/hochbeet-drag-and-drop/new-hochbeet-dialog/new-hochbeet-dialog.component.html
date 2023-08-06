@@ -1,0 +1,29 @@
+<div class="m-4 p-4">
+  <form
+    class="flex flex-col"
+    [formGroup]="newHochbeetForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Breite (in cm)</mat-label>
+      <input type="number" matInput formControlName="width" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Höhe (in cm)</mat-label>
+      <input type="number" matInput formControlName="height" />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!newHochbeetForm.valid"
+    >
+      Erstellen
+    </button>
+  </form>
+</div>

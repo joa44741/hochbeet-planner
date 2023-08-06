@@ -1,0 +1,134 @@
+<div class="flex space-x-3">
+  <div class="flex space-x-3">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="decreaseSize()"
+      [disabled]="sizeFactor === 1"
+    >
+      -
+    </button>
+    <button mat-raised-button color="primary" (click)="increaseSize()">
+      +
+    </button>
+  </div>
+  <div class="flex w-14"></div>
+  <div class="flex space-x-3">
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="alignSelectedToLeft()"
+      [disabled]="isAlignButtonDisabled()"
+    >
+      <mat-icon>format_align_left</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="alignSelectedToRight()"
+      [disabled]="isAlignButtonDisabled()"
+    >
+      <mat-icon>format_align_right</mat-icon>
+    </button>
+  </div>
+</div>
+<div
+  class="hochbeet-border mt-4"
+  [style.width.px]="hochbeet.width * sizeFactor"
+  [style.height.px]="hochbeet.height * sizeFactor"
+>
+  <div
+    class="hochbeet-boundary"
+    [style.width.px]="hochbeet.width * sizeFactor"
+    [style.height.px]="hochbeet.height * sizeFactor"
+  >
+    <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+  </div>
+</div>
+
+<div class="container pl-4 mt-4 flex space-x-3">
+  <button
+    *ngFor="let plant of plants$ | async"
+    mat-raised-button
+    color="primary"
+    (click)="addPlant(plant)"
+  >
+    Add {{ plant.name }}
+  </button>
+</div>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-title>Warnings</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngFor="let warning of warningsToStrings()">
+      {{ warning }}
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #myTemplate>
+  <!-- [style.backgroundColor]="feederColors[plantInBeet.plant.feeder]" -->
+  <div
+    class="plant"
+    [class.plantBorderNormal]="!hasWarning(plantInBeet)"
+    [class.plantBorderWarning]="hasWarning(plantInBeet)"
+    cdkDragBoundary=".hochbeet-boundary"
+    *ngFor="let plantInBeet of resizedPlantsInBeet; trackBy: trackByPlant"
+    [style.width.px]="plantInBeet.plant.width * sizeFactor"
+    [cdkDragData]="plantInBeet"
+    [style.height.px]="plantInBeet.plant.height * sizeFactor"
+    [cdkDragFreeDragPosition]="{
+      x: plantInBeet.position.x,
+      y: plantInBeet.position.y
+    }"
+    (cdkDragEnded)="dragEnded($event)"
+    cdkDrag
+    [style.backgroundImage]="'url(' + plantInBeet.plant.imageUrl + ')'"
+  >
+    <div class="plantInfos">
+      <mat-icon
+        matTooltip="Group: {{ plantInBeet.plant.group }}"
+        [matTooltipPosition]="'right'"
+        style="color: rgb(175, 255, 175)"
+      >
+        local_florist</mat-icon
+      >
+      <mat-icon
+        matTooltip="Feeder: {{ plantInBeet.plant.feeder }}"
+        [matTooltipPosition]="'right'"
+        [style.color]="feederColors[plantInBeet.plant.feeder]"
+      >
+        circle</mat-icon
+      >
+    </div>
+    {{ plantInBeet.plant.name }} ({{ plantInBeet.plantNumber }})
+    <div class="plantButtons flex space-x-2">
+      <button
+        mat-icon-button
+        class="small-icon-button"
+        matTooltip="Remove '{{ plantInBeet.plant.name }}'"
+        [matTooltipPosition]="'below'"
+        (click)="removePlant(plantInBeet)"
+      >
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        matTooltip="Duplicate '{{ plantInBeet.plant.name }}'"
+        [matTooltipPosition]="'below'"
+        class="small-icon-button"
+        (click)="addPlant(plantInBeet.plant)"
+      >
+        <mat-icon>control_point_duplicate</mat-icon>
+      </button>
+      <mat-checkbox
+        class="small-icon-button"
+        [(ngModel)]="plantInBeet.selected"
+        matTooltip="Select '{{ plantInBeet.plant.name }}' for align options"
+        [matTooltipPosition]="'below'"
+      ></mat-checkbox>
+    </div>
+  </div>
+</ng-template>

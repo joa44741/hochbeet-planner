@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Hochbeet, Plant } from '../secure/types';
-import { HochbeetApiActions } from './hochbeet.actions';
+import { Hochbeet } from '../types';
+import { HochbeetAction, HochbeetApiActions } from './hochbeet.actions';
 
 export interface HochbeetState {
   hochbeetList: Hochbeet[];
@@ -17,6 +17,13 @@ export const hochbeetReducer = createReducer(
     (state: HochbeetState, { hochbeetList }): Readonly<HochbeetState> => ({
       ...state,
       hochbeetList: [...hochbeetList]
+    })
+  ),
+  on(
+    HochbeetAction.createHochbeet,
+    (state: HochbeetState, { hochbeet }): Readonly<HochbeetState> => ({
+      ...state,
+      hochbeetList: [...state.hochbeetList, hochbeet]
     })
   )
 );

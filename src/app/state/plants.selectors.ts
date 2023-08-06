@@ -1,5 +1,5 @@
 import { createFeatureSelector } from '@ngrx/store';
-import { Plant } from '../secure/types';
+import { Plant } from '../types';
 
 export const selectPlants =
   createFeatureSelector<ReadonlyArray<Plant>>('plants');

@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { Hochbeet, Plant, PlantInBeet } from '../secure/types';
+import { Hochbeet, PlantInBeet } from '../types';
 
 // export const PlantsActions = createActionGroup({
 //     source: 'Plants',
@@ -13,7 +13,8 @@ export const HochbeetAction = createActionGroup({
   source: 'Hochbeet',
   events: {
     'Add Plant': props<{ plantInBeet: PlantInBeet }>(),
-    'Remove Plant': props<{ plantInBeet: PlantInBeet }>()
+    'Remove Plant': props<{ plantInBeet: PlantInBeet }>(),
+    'Create Hochbeet': props<{ hochbeet: Hochbeet }>()
   }
 });
 

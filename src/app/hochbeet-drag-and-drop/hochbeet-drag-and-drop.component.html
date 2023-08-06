@@ -1,0 +1,13 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="container p-4">
+  <button mat-raised-button (click)="addHochbeet()" color="primary">
+    Beet erstellen
+  </button>
+</div>
+<div class="container" *ngIf="hochbeetList$">
+  <!-- <app-hochbeet-canvas></app-hochbeet-canvas> -->
+  <mat-card class="p-4 m-4" *ngFor="let hochbeet of hochbeetList$ | async">
+    <app-single-hochbeet [hochbeet]="hochbeet"></app-single-hochbeet
+  ></mat-card>
+</div>
