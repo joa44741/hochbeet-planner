@@ -15,6 +15,7 @@ export class PlantsFunctions extends Construct {
     const getPlantsFunction = new NodejsFunction(this, 'getPlants', {
       runtime: lambda.Runtime.NODEJS_18_X,
       functionName: 'HochbeetPlanner-GetPlants',
+      entry: __dirname + '/get-plants.lambda.ts',
       environment: {
         PLANTS_TABLE: props.plantsTable.tableName,
       },

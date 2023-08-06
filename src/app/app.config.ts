@@ -1,18 +1,24 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideStore } from '@ngrx/store';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { plantsReducer } from './state/plants.reducer';
+import { routes } from './app.routes';
+import { awsAuthInterceptor } from './aws-auth.interceptor';
 import { hochbeetReducer } from './state/hochbeet.reducer';
+import { plantsReducer } from './state/plants.reducer';
+
+// Code snippet from aws-auth.interceptor.ts
+// import { switchMap } from 'rxjs/operators';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
+    provideHttpClient(withInterceptors([awsAuthInterceptor])),
     provideStore({
       plants: plantsReducer,
       hochbeetState: hochbeetReducer,

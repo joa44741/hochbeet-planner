@@ -1,7 +1,9 @@
 import { PlantInBeet, Warning, WarningReason } from '../types';
 
 export const sortPlantsInBeet = (a: PlantInBeet, b: PlantInBeet) =>
-  (a.plant.name + a.plantNumber).localeCompare(b.plant.name + b.plantNumber);
+  (a.plant.plantName + a.plantNumber).localeCompare(
+    b.plant.plantName + b.plantNumber
+  );
 
 export const createWarning = (
   reason: WarningReason,
@@ -24,7 +26,7 @@ export const notEmpty = <TValue>(
 
 export const plantInBeetEqual = (plant1: PlantInBeet, plant2: PlantInBeet) => {
   return (
-    plant1.plant.name === plant2.plant.name &&
+    plant1.plant.plantName === plant2.plant.plantName &&
     plant1.plantNumber === plant2.plantNumber
   );
 };

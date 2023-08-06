@@ -2,8 +2,7 @@ export type FeederType = 'WEAK' | 'MEDIUM' | 'STRONG';
 
 export interface Plant {
   userId: string;
-  x?: string;
-  name: string;
+  plantName: string;
   group: string;
   width: number;
   height: number;

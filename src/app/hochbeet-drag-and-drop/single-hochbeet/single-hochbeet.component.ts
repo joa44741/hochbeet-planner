@@ -125,7 +125,7 @@ export class SingleHochbeetComponent implements OnInit {
       const plantNamesAndNumbers = warning.affectedPlants
         .map(
           (plantInBeet) =>
-            `${plantInBeet.plant.name} (${plantInBeet.plantNumber})`
+            `${plantInBeet.plant.plantName} (${plantInBeet.plantNumber})`
         )
         .join(', ');
       return `${warning.warningReason}: ${plantNamesAndNumbers}`;
@@ -133,7 +133,7 @@ export class SingleHochbeetComponent implements OnInit {
   }
 
   trackByPlant: TrackByFunction<PlantInBeet> = (index, plantInBeet) =>
-    plantInBeet.plant.name + plantInBeet.plantNumber;
+    plantInBeet.plant.plantName + plantInBeet.plantNumber;
 
   ngOnInit(): void {
     this.loadPlantsInBeet();
@@ -171,13 +171,15 @@ export class SingleHochbeetComponent implements OnInit {
 
   addPlant(plant: Plant) {
     const plantNumbers = this.resizedPlantsInBeet
-      .filter((plantInBeet) => plantInBeet.plant.name === plant.name)
+      .filter((plantInBeet) => plantInBeet.plant.plantName === plant.plantName)
       .map((plantInBeet) => plantInBeet.plantNumber);
     const maxPlantNumber =
       plantNumbers.length > 0
         ? Math.max(
             ...this.resizedPlantsInBeet
-              .filter((plantInBeet) => plantInBeet.plant.name === plant.name)
+              .filter(
+                (plantInBeet) => plantInBeet.plant.plantName === plant.plantName
+              )
               .map((plantInBeet) => plantInBeet.plantNumber)
           )
         : 0;

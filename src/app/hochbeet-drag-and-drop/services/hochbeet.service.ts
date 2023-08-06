@@ -12,8 +12,8 @@ export class HochbeetService {
   loadHochbeetList(): Observable<Hochbeet[]> {
     return this.plantsService.loadPlants().pipe(
       map((plants) => {
-        const brokkoli = plants.find((p) => p.name === 'Brokkoli')!;
-        const basilikum = plants.find((p) => p.name === 'Basilikum')!;
+        const brokkoli = plants.find((p) => p.plantName === 'Brokkoli')!;
+        const basilikum = plants.find((p) => p.plantName === 'Basilikum')!;
         const hochbeetList: Hochbeet[] = [
           {
             beetNumber: 1,
