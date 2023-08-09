@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -10,15 +10,16 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { selectPlants } from 'src/app/state/plants.selectors';
 import { FeederType, Hochbeet, Plant, PlantInBeet } from '../../types';
+import { AddPlantToHochbeetDialogComponent } from '../add-plant-to-hochbeet-dialog/add-plant-to-hochbeet-dialog.component';
 import { isPlantInBeetIncluded, plantInBeetEqual } from '../plant-in-beet-util';
+import { PlantComponent } from '../plant/plant.component';
 import { CollisionDetectorService } from '../services/collision-detector.service';
 
 @Component({
@@ -27,13 +28,11 @@ import { CollisionDetectorService } from '../services/collision-detector.service
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    CdkDrag,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
     MatTooltipModule,
-    MatCheckboxModule,
-    FormsModule
+    PlantComponent
   ],
   templateUrl: './single-hochbeet.component.html',
   styleUrls: ['./single-hochbeet.component.scss']
@@ -41,6 +40,7 @@ import { CollisionDetectorService } from '../services/collision-detector.service
 export class SingleHochbeetComponent implements OnInit {
   sizeFactor = 5;
   plants$ = this.store.select(selectPlants);
+  loadedPlants: Record<string, Plant> = {};
 
   @Input()
   hochbeet!: Hochbeet;
@@ -56,7 +56,8 @@ export class SingleHochbeetComponent implements OnInit {
   constructor(
     private collisionDetectorService: CollisionDetectorService,
     private changeDetectorRef: ChangeDetectorRef,
-    private store: Store
+    private store: Store,
+    private matDialog: MatDialog
   ) {}
 
   hasWarning(plantInBeet: PlantInBeet) {
@@ -79,23 +80,40 @@ export class SingleHochbeetComponent implements OnInit {
     this.detectCollisions();
   }
 
+  openAddPlantDialog() {
+    this.matDialog
+      .open(AddPlantToHochbeetDialogComponent, {})
+      .afterClosed()
+      .subscribe((plantName) => {
+        this.addPlant(plantName);
+      });
+  }
+
+  getPlantByName(plantName: string): Plant {
+    const plant = this.loadedPlants[plantName];
+    return plant;
+  }
+
   alignSelectedToRight() {
     const selectedPlantsInBeet = this.resizedPlantsInBeet.filter(
       (p) => p.selected === true
     );
     const maxX = Math.max(
       ...selectedPlantsInBeet.map(
-        (p) => p.position.x + p.plant.width * this.sizeFactor
+        (p) =>
+          p.position.x +
+          this.getPlantByName(p.plantName).width * this.sizeFactor
       )
     );
     selectedPlantsInBeet.forEach((p) => {
-      p.position.x = maxX - p.plant.width * this.sizeFactor;
+      p.position.x =
+        maxX - this.getPlantByName(p.plantName).width * this.sizeFactor;
       p.selected = false;
     });
     this.detectCollisions();
   }
 
-  private loadPlantsInBeet() {
+  private resizePlantsInBeet() {
     this.resizedPlantsInBeet = [...this.hochbeet.plantsInBeet];
     console.log(this.resizedPlantsInBeet);
     this.adjustPositions(1, this.sizeFactor);
@@ -115,7 +133,7 @@ export class SingleHochbeetComponent implements OnInit {
       plantInBeetEqual(plantInBeet, droppedPlantInBeet)
     )!;
     foundPlantInBeet.position = event.source.getFreeDragPosition();
-    // console.log(foundPlantInBeet.position);
+    console.log(foundPlantInBeet.position);
 
     this.detectCollisions();
   }
@@ -125,7 +143,7 @@ export class SingleHochbeetComponent implements OnInit {
       const plantNamesAndNumbers = warning.affectedPlants
         .map(
           (plantInBeet) =>
-            `${plantInBeet.plant.plantName} (${plantInBeet.plantNumber})`
+            `${plantInBeet.plantName} (${plantInBeet.plantNumber})`
         )
         .join(', ');
       return `${warning.warningReason}: ${plantNamesAndNumbers}`;
@@ -133,11 +151,20 @@ export class SingleHochbeetComponent implements OnInit {
   }
 
   trackByPlant: TrackByFunction<PlantInBeet> = (index, plantInBeet) =>
-    plantInBeet.plant.plantName + plantInBeet.plantNumber;
+    plantInBeet.plantName + plantInBeet.plantNumber;
 
   ngOnInit(): void {
-    this.loadPlantsInBeet();
-    this.detectCollisions();
+    this.plants$.subscribe((plants) => {
+      if (plants) {
+        const plantNamesToPlant: Record<string, Plant> = {};
+        plants.forEach((plant) => {
+          plantNamesToPlant[plant.plantName] = plant;
+        });
+        this.loadedPlants = plantNamesToPlant;
+        this.resizePlantsInBeet();
+        this.detectCollisions();
+      }
+    });
   }
 
   increaseSize() {
@@ -169,24 +196,22 @@ export class SingleHochbeetComponent implements OnInit {
     });
   }
 
-  addPlant(plant: Plant) {
+  addPlant(plantName: string) {
     const plantNumbers = this.resizedPlantsInBeet
-      .filter((plantInBeet) => plantInBeet.plant.plantName === plant.plantName)
+      .filter((plantInBeet) => plantInBeet.plantName === plantName)
       .map((plantInBeet) => plantInBeet.plantNumber);
     const maxPlantNumber =
       plantNumbers.length > 0
         ? Math.max(
             ...this.resizedPlantsInBeet
-              .filter(
-                (plantInBeet) => plantInBeet.plant.plantName === plant.plantName
-              )
+              .filter((plantInBeet) => plantInBeet.plantName === plantName)
               .map((plantInBeet) => plantInBeet.plantNumber)
           )
         : 0;
 
     const newPlantInBeet = {
       plantNumber: maxPlantNumber + 1,
-      plant,
+      plantName: plantName,
       position: { x: 0, y: 0 }
     };
     this.resizedPlantsInBeet.push(newPlantInBeet);
@@ -205,6 +230,7 @@ export class SingleHochbeetComponent implements OnInit {
   }
   private detectCollisions() {
     this.collisionDetectorService.updateWarnings(
+      this.loadedPlants,
       this.resizedPlantsInBeet,
       this.sizeFactor
     );

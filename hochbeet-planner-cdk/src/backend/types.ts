@@ -17,11 +17,12 @@ export interface PlantInBeet {
     x: number;
     y: number;
   };
-  plant: Plant;
+  plantName: string;
   selected?: boolean;
 }
 
 export interface Hochbeet {
+  userId: string;
   beetNumber: number;
   name: string;
   plantsInBeet: PlantInBeet[];

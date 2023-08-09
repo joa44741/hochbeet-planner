@@ -1,0 +1,70 @@
+<!-- eslint-disable @angular-eslint/template/alt-text -->
+<div class="m-4 flex space-x-3" *ngIf="plants$ | async as plants">
+  <mat-card
+    style="
+      min-width: 400px;
+      border-width: 1px;
+      border-color: white;
+      color: white;
+    "
+    *ngFor="let plant of plants"
+  >
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ plant.plantName }}</mat-card-title>
+        <mat-card-subtitle>{{ plant.group }}</mat-card-subtitle>
+        <img mat-card-sm-image src="{{ plant.imageUrl }}" />
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Schlechte Nachbarn: {{ plant.badNeighbors }}</p>
+      <p>
+        Düngerbedarf (Zehrer):
+        <mat-icon
+          matTooltip="Feeder: {{ plant.feeder }}"
+          [matTooltipPosition]="'right'"
+          [style.color]="feederColors[plant.feeder]"
+        >
+          circle</mat-icon
+        >
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        class="mt-2"
+        color="primary"
+        mat-raised-button
+        (click)="addPlant(plant.plantName)"
+      >
+        +
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <!-- <form
+      class="flex flex-col"
+      [formGroup]="newHochbeetForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Breite (in cm)</mat-label>
+        <input type="number" matInput formControlName="width" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Höhe (in cm)</mat-label>
+        <input type="number" matInput formControlName="height" />
+      </mat-form-field>
+  
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!newHochbeetForm.valid"
+      >
+        Erstellen
+      </button>
+    </form> -->
+</div>

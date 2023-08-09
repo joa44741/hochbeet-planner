@@ -5,6 +5,7 @@ import { Construct } from 'constructs';
 
 export class BackendStackStateful extends Stack {
     readonly plantsTable: dynamodb.Table;
+    readonly hochbeeteTable: dynamodb.Table;
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
@@ -21,7 +22,18 @@ export class BackendStackStateful extends Stack {
             tableName: 'HochbeetPlanner-Plants',
         });
 
+        this.hochbeeteTable = new dynamodb.Table(this, 'hochbeeteTable', {
+            partitionKey: {
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING,
+            },
+            sortKey: {
+                name: 'beetNumber',
+                type: dynamodb.AttributeType.NUMBER,
+            },
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            tableName: 'HochbeetPlanner-Hochbeete',
+        });
     }
-
 
 }

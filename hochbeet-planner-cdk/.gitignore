@@ -51,4 +51,5 @@ junit.xml
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+!/src/backend/hochbeete-functions/get-hochbeete-function.ts
 !/src/backend/plants-functions/get-plants-function.ts

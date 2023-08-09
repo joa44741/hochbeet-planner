@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Auth, Hub } from 'aws-amplify';
+import { Observable, map, switchMap } from 'rxjs';
 import { HochbeetService } from './hochbeet-drag-and-drop/services/hochbeet.service';
 import { PlantsService } from './hochbeet-drag-and-drop/services/plants.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
@@ -70,8 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private onSignedIn() {
     this.isLoggedIn = true;
-    this.loadPlants();
-    this.loadHochbeete();
+
+    this.loadPlants()
+      .pipe(switchMap(() => this.loadHochbeete()))
+      .subscribe(() => console.log('loaded'));
   }
 
   ngOnDestroy(): void {
@@ -84,20 +87,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matDialog.open(LoginModalComponent);
   }
 
-  private loadPlants() {
-    this.plantsService
-      .loadPlants()
-      .subscribe((plants) =>
-        this.store.dispatch(PlantsApiActions.retrievedPlantsList({ plants }))
-      );
+  private loadPlants(): Observable<void> {
+    return this.plantsService.loadPlants().pipe(
+      map((plants) => {
+        console.log('loaded plants', { plants });
+        return this.store.dispatch(
+          PlantsApiActions.retrievedPlantsList({ plants })
+        );
+      })
+    );
   }
-  private loadHochbeete() {
-    this.hochbeetService
-      .loadHochbeetList()
-      .subscribe((hochbeetList) =>
-        this.store.dispatch(
+
+  private loadHochbeete(): Observable<void> {
+    return this.hochbeetService.loadHochbeetList().pipe(
+      map((hochbeetList) => {
+        return this.store.dispatch(
           HochbeetApiActions.retrievedHochbeetList({ hochbeetList })
-        )
-      );
+        );
+      })
+    );
   }
 }

@@ -148,6 +148,7 @@
         "devDependencies": [
           "**/test/**",
           "**/build-tools/**",
+          "src/backend/hochbeete-functions/get-hochbeete.lambda.ts",
           "src/backend/plants-functions/get-plants.lambda.ts",
           ".projenrc.ts",
           "projenrc/**/*.ts"

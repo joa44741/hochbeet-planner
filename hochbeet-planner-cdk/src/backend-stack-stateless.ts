@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/indent */
 import { Stack, StackProps, aws_apigateway as apigw, aws_cognito as cognito, aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { HochbeeteFunctions } from './backend/hochbeete-functions/hochbeete-functions.construct';
 import { PlantsFunctions } from './backend/plants-functions/plants-functions.construct';
+
 
 interface BackendStackStatelessProps extends StackProps {
     plantsTable: dynamodb.ITable;
+    hochbeeteTable: dynamodb.ITable;
 
 }
 export class BackendStackStateless extends Stack {
@@ -12,14 +15,18 @@ export class BackendStackStateless extends Stack {
         super(scope, id, props);
 
         const api = this.createApiGateway();
-        this.createApiEndpoints(api, props.plantsTable);
+        this.createApiEndpoints(api, props.plantsTable, props.hochbeeteTable);
     }
 
-    private createApiEndpoints(api: apigw.RestApi, plantsTable: dynamodb.ITable) {
+    private createApiEndpoints(api: apigw.RestApi, plantsTable: dynamodb.ITable, hochbeeteTable: dynamodb.ITable) {
         const plantsFunctions = new PlantsFunctions(this, { plantsTable });
+        const hochbeeteFunctions = new HochbeeteFunctions(this, { hochbeeteTable });
 
         const plants = api.root.addResource('plants');
         plants.addMethod('GET', new apigw.LambdaIntegration(plantsFunctions.getPlants));
+
+        const hochbeete = api.root.addResource('hochbeete');
+        hochbeete.addMethod('GET', new apigw.LambdaIntegration(hochbeeteFunctions.getHochbeete));
     }
 
     private createApiGateway() {

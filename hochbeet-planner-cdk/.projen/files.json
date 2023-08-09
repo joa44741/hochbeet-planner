@@ -15,6 +15,7 @@
     ".projen/tasks.json",
     "cdk.json",
     "LICENSE",
+    "src/backend/hochbeete-functions/get-hochbeete-function.ts",
     "src/backend/plants-functions/get-plants-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"

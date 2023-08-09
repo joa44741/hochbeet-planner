@@ -9,7 +9,7 @@ export class FrontendStack extends Stack {
     super(scope, id, props);
     new AngularAppDeployment(this, 'angular-app-deployment', {
       buildConfiguration: 'production',
-      relativeAngularPath: '../frontend',
+      relativeAngularPath: '..',
     });
   }
 }
@@ -23,9 +23,13 @@ const devEnv = {
 
 const app = new App();
 
-// new FrontendStack(app, 'hochbeet-planner-frontend', { env: devEnv, stackName: 'HochbeetPlanner-Frontend' });
+new FrontendStack(app, 'hochbeet-planner-frontend', { env: devEnv, stackName: 'HochbeetPlanner-Frontend' });
 const backendStateful = new BackendStackStateful(app, 'hochbeet-planner-backend-stateful', { env: devEnv, stackName: 'HochbeetPlanner-Backend-Stateful' });
-new BackendStackStateless(app, 'hochbeet-planner-backend-stateless', { env: devEnv, stackName: 'HochbeetPlanner-Backend-Stateless', plantsTable: backendStateful.plantsTable });
-// new MyStack(app, 'hochbeet-planner-cdk-prod', { env: prodEnv });
+new BackendStackStateless(app, 'hochbeet-planner-backend-stateless', {
+  env: devEnv,
+  stackName: 'HochbeetPlanner-Backend-Stateless',
+  plantsTable: backendStateful.plantsTable,
+  hochbeeteTable: backendStateful.hochbeeteTable,
+});
 
 app.synth();

@@ -29,7 +29,28 @@
       "description": "Prepare assets",
       "steps": [
         {
+          "spawn": "bundle:backend/hochbeete-functions/get-hochbeete.lambda"
+        },
+        {
           "spawn": "bundle:backend/plants-functions/get-plants.lambda"
+        }
+      ]
+    },
+    "bundle:backend/hochbeete-functions/get-hochbeete.lambda": {
+      "name": "bundle:backend/hochbeete-functions/get-hochbeete.lambda",
+      "description": "Create a JavaScript bundle from src/backend/hochbeete-functions/get-hochbeete.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/backend/hochbeete-functions/get-hochbeete.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/backend/hochbeete-functions/get-hochbeete.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+        }
+      ]
+    },
+    "bundle:backend/hochbeete-functions/get-hochbeete.lambda:watch": {
+      "name": "bundle:backend/hochbeete-functions/get-hochbeete.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/backend/hochbeete-functions/get-hochbeete.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/backend/hochbeete-functions/get-hochbeete.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/backend/hochbeete-functions/get-hochbeete.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -236,13 +257,13 @@
           "exec": "yarn upgrade npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/aws-lambda,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,aws-lambda,esbuild,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint,jest,jest-junit,npm-check-updates,projen,ts-jest,ts-node,typescript,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,aws-cdk-lib,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/aws-lambda,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,esbuild,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint,jest,jest-junit,npm-check-updates,projen,ts-jest,ts-node,typescript,@aws-lambda-powertools/logger,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,aws-cdk-lib,aws-lambda,constructs"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-lambda esbuild eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit npm-check-updates projen ts-jest ts-node typescript @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb aws-cdk-lib constructs"
+          "exec": "yarn upgrade @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit npm-check-updates projen ts-jest ts-node typescript @aws-lambda-powertools/logger @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb aws-cdk-lib aws-lambda constructs"
         },
         {
           "exec": "npx projen"

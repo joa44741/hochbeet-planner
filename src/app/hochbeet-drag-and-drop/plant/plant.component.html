@@ -1,0 +1,60 @@
+<div
+  class="plant"
+  [class.plantBorderNormal]="!hasWarning"
+  [class.plantBorderWarning]="hasWarning"
+  [style.width.px]="plant.width * sizeFactor"
+  [style.height.px]="plant.height * sizeFactor"
+  [style.backgroundImage]="'url(' + plant.imageUrl + ')'"
+  [cdkDragData]="plantInBeet"
+  cdkDragBoundary=".hochbeet-boundary"
+  [cdkDragFreeDragPosition]="{
+    x: plantInBeet.position.x,
+    y: plantInBeet.position.y
+  }"
+  (cdkDragEnded)="dragEnded.emit($event)"
+  cdkDrag
+>
+  <div class="plantInfos">
+    <mat-icon
+      matTooltip="Group: {{ plant.group }}"
+      [matTooltipPosition]="'right'"
+      style="color: rgb(175, 255, 175)"
+    >
+      local_florist</mat-icon
+    >
+    <mat-icon
+      matTooltip="Feeder: {{ plant.feeder }}"
+      [matTooltipPosition]="'right'"
+      [style.color]="feederColors[plant.feeder]"
+    >
+      circle</mat-icon
+    >
+  </div>
+  {{ plantInBeet.plantName }} ({{ plantInBeet.plantNumber }})
+  <div class="plantButtons flex space-x-2">
+    <button
+      mat-icon-button
+      class="small-icon-button"
+      matTooltip="Remove '{{ plantInBeet.plantName }}'"
+      [matTooltipPosition]="'below'"
+      (click)="removePlant.emit(plantInBeet)"
+    >
+      <mat-icon>remove_circle_outline</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="Duplicate '{{ plantInBeet.plantName }}'"
+      [matTooltipPosition]="'below'"
+      class="small-icon-button"
+      (click)="addPlant.emit(plantInBeet)"
+    >
+      <mat-icon>control_point_duplicate</mat-icon>
+    </button>
+    <mat-checkbox
+      class="small-icon-button"
+      [(ngModel)]="plantInBeet.selected"
+      matTooltip="Select '{{ plantInBeet.plantName }}' for align options"
+      [matTooltipPosition]="'below'"
+    ></mat-checkbox>
+  </div>
+</div>

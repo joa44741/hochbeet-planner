@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,7 @@ import { NewHochbeetDialogComponent } from './new-hochbeet-dialog/new-hochbeet-d
     MatCardModule
   ]
 })
-export class HochbeetDragAndDropComponent implements OnInit {
+export class HochbeetDragAndDropComponent {
   plants$ = this.store.select(selectPlants);
   hochbeetList$? = this.store.select(selectHochbeetList);
 
@@ -34,7 +34,6 @@ export class HochbeetDragAndDropComponent implements OnInit {
     private store: Store,
     private matDialog: MatDialog
   ) {}
-  ngOnInit(): void {}
 
   addHochbeet() {
     const dialogResult$: Observable<{
@@ -44,12 +43,16 @@ export class HochbeetDragAndDropComponent implements OnInit {
     }> = this.matDialog.open(NewHochbeetDialogComponent).afterClosed();
 
     dialogResult$.subscribe((result) => {
+      if (!result) {
+        return;
+      }
       this.hochbeetList$?.pipe(take(1)).subscribe((hochbeetList) => {
         const maxBeetNumber =
           hochbeetList.length > 0
             ? Math.max(...hochbeetList.map((hochbeet) => hochbeet.beetNumber))
             : 0;
         const newBeet: Hochbeet = {
+          userId: 'unpersisted',
           beetNumber: maxBeetNumber + 1,
           name: result.name,
           width: result.width,

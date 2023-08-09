@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlantInBeet, Warning, WarningReason } from '../../types';
+import { Plant, PlantInBeet, Warning, WarningReason } from '../../types';
 import {
   isPlantInBeetIncluded,
   notEmpty,
@@ -27,11 +27,18 @@ const createWarning = (
 export class CollisionDetectorService {
   warnings: Warning[] = [];
 
-  public detectCollision(p1: PlantInBeet, p2: PlantInBeet, sizeFactor: number) {
-    const p1Right = p1.position.x + p1.plant.width * sizeFactor;
-    const p2Right = p2.position.x + p2.plant.width * sizeFactor;
-    const p1Bottom = p1.position.y + p1.plant.height * sizeFactor;
-    const p2Bottom = p2.position.y + p2.plant.height * sizeFactor;
+  private detectCollision(
+    loadedPlants: Record<string, Plant>,
+    p1: PlantInBeet,
+    p2: PlantInBeet,
+    sizeFactor: number
+  ) {
+    const plant1 = loadedPlants[p1.plantName];
+    const plant2 = loadedPlants[p2.plantName];
+    const p1Right = p1.position.x + plant1.width * sizeFactor;
+    const p2Right = p2.position.x + plant2.width * sizeFactor;
+    const p1Bottom = p1.position.y + plant1.height * sizeFactor;
+    const p2Bottom = p2.position.y + plant2.height * sizeFactor;
 
     return (
       p1.position.x < p2Right &&
@@ -41,7 +48,11 @@ export class CollisionDetectorService {
     );
   }
 
-  updateWarnings(plantsInBeet: PlantInBeet[], sizeFactor: number) {
+  updateWarnings(
+    loadedPlants: Record<string, Plant>,
+    plantsInBeet: PlantInBeet[],
+    sizeFactor: number
+  ) {
     const tempWarnings: Warning[] = [];
     for (const plantInBeetToCheck of plantsInBeet) {
       const plantsWithCollisions: PlantInBeet[] = [];
@@ -53,7 +64,12 @@ export class CollisionDetectorService {
         }
 
         if (
-          this.detectCollision(plantInBeetToCheck, otherPlantInBeet, sizeFactor)
+          this.detectCollision(
+            loadedPlants,
+            plantInBeetToCheck,
+            otherPlantInBeet,
+            sizeFactor
+          )
         ) {
           plantsWithCollisions.push(otherPlantInBeet);
         }

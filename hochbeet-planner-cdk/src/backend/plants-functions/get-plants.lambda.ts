@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { Plant } from './types';
+import { Plant } from '../types';
 const dynamodbClient = new DynamoDBClient({});
 const dynamodbDocClient = DynamoDBDocumentClient.from(dynamodbClient);
 
@@ -32,7 +32,7 @@ const queryPlants = async (currentUserId: string): Promise<Plant[]> => {
 };
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-  const currentUserId = event.requestContext.authorizer?.claims.sub;
+  const currentUserId = event.requestContext.authorizer!.claims.email;
   const plants = await queryPlants(currentUserId);
 
   return {
