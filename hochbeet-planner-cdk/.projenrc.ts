@@ -7,6 +7,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   projenrcTs: true,
   minNodeVersion: '18.17.0',
   lambdaOptions: { runtime: LambdaRuntime.NODEJS_18_X },
+  lambdaAutoDiscover: false,
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */

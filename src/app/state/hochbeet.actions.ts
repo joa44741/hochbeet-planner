@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Hochbeet, PlantInBeet } from '../types';
 
 // export const PlantsActions = createActionGroup({
@@ -14,13 +14,17 @@ export const HochbeetAction = createActionGroup({
   events: {
     'Add Plant': props<{ plantInBeet: PlantInBeet }>(),
     'Remove Plant': props<{ plantInBeet: PlantInBeet }>(),
-    'Create Hochbeet': props<{ hochbeet: Hochbeet }>()
+    'Create Hochbeet': props<{ hochbeet: Hochbeet }>(),
+    'Save Hochbeet': props<{ hochbeet: Hochbeet }>(),
+    'Load Hochbeete': emptyProps()
   }
 });
 
 export const HochbeetApiActions = createActionGroup({
   source: 'Hochbeet API',
   events: {
+    'Store Hochbeet': props<{ hochbeet: Hochbeet }>(),
+    'Stored Hochbeet': emptyProps(),
     'Retrieved Hochbeet List': props<{
       hochbeetList: ReadonlyArray<Hochbeet>;
     }>(),

@@ -5,6 +5,8 @@
     "bundle": "npx projen bundle",
     "bundle:backend/hochbeete-functions/get-hochbeete.lambda": "npx projen bundle:backend/hochbeete-functions/get-hochbeete.lambda",
     "bundle:backend/hochbeete-functions/get-hochbeete.lambda:watch": "npx projen bundle:backend/hochbeete-functions/get-hochbeete.lambda:watch",
+    "bundle:backend/hochbeete-functions/store-hochbeet.lambda": "npx projen bundle:backend/hochbeete-functions/store-hochbeet.lambda",
+    "bundle:backend/hochbeete-functions/store-hochbeet.lambda:watch": "npx projen bundle:backend/hochbeete-functions/store-hochbeet.lambda:watch",
     "bundle:backend/plants-functions/get-plants.lambda": "npx projen bundle:backend/plants-functions/get-plants.lambda",
     "bundle:backend/plants-functions/get-plants.lambda:watch": "npx projen bundle:backend/plants-functions/get-plants.lambda:watch",
     "clobber": "npx projen clobber",

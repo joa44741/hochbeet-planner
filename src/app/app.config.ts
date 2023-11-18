@@ -3,11 +3,15 @@ import { provideRouter } from '@angular/router';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { awsAuthInterceptor } from './aws-auth.interceptor';
+import * as hochbeetEffects from './state/hochbeet.effects';
+import * as plantsEffects from './state/plants.effects';
+
 import { hochbeetReducer } from './state/hochbeet.reducer';
 import { plantsReducer } from './state/plants.reducer';
 
@@ -24,6 +28,7 @@ export const appConfig: ApplicationConfig = {
       hochbeetState: hochbeetReducer,
       router: routerReducer
     }),
+    provideEffects(hochbeetEffects, plantsEffects),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: false, // !isDevMode(), // Restrict extension to log-only mode

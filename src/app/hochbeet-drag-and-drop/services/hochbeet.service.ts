@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Hochbeet } from '../../types';
 
@@ -34,5 +34,14 @@ export class HochbeetService {
     //     return hochbeetList;
     //   })
     // );
+  }
+
+  storeHochbeet(hochbeet: Hochbeet): Observable<Hochbeet> {
+    return this.httpClient
+      .put<Hochbeet>(
+        `${this.BASE_URI}/hochbeete/${hochbeet.beetNumber}`,
+        hochbeet
+      )
+      .pipe(switchMap(() => of(hochbeet)));
   }
 }

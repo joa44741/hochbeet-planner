@@ -32,6 +32,9 @@
           "spawn": "bundle:backend/hochbeete-functions/get-hochbeete.lambda"
         },
         {
+          "spawn": "bundle:backend/hochbeete-functions/store-hochbeet.lambda"
+        },
+        {
           "spawn": "bundle:backend/plants-functions/get-plants.lambda"
         }
       ]
@@ -51,6 +54,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/backend/hochbeete-functions/get-hochbeete.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/backend/hochbeete-functions/get-hochbeete.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+        }
+      ]
+    },
+    "bundle:backend/hochbeete-functions/store-hochbeet.lambda": {
+      "name": "bundle:backend/hochbeete-functions/store-hochbeet.lambda",
+      "description": "Create a JavaScript bundle from src/backend/hochbeete-functions/store-hochbeet.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/backend/hochbeete-functions/store-hochbeet.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/backend/hochbeete-functions/store-hochbeet.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+        }
+      ]
+    },
+    "bundle:backend/hochbeete-functions/store-hochbeet.lambda:watch": {
+      "name": "bundle:backend/hochbeete-functions/store-hochbeet.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/backend/hochbeete-functions/store-hochbeet.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/backend/hochbeete-functions/store-hochbeet.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/backend/hochbeete-functions/store-hochbeet.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },

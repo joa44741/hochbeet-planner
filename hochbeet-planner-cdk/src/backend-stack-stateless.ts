@@ -27,6 +27,8 @@ export class BackendStackStateless extends Stack {
 
         const hochbeete = api.root.addResource('hochbeete');
         hochbeete.addMethod('GET', new apigw.LambdaIntegration(hochbeeteFunctions.getHochbeete));
+        const singleHochbeet = hochbeete.addResource('{nr}');
+        singleHochbeet.addMethod('PUT', new apigw.LambdaIntegration(hochbeeteFunctions.storeHochbeet));
     }
 
     private createApiGateway() {

@@ -10,12 +10,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Auth, Hub } from 'aws-amplify';
-import { Observable, map, switchMap } from 'rxjs';
-import { HochbeetService } from './hochbeet-drag-and-drop/services/hochbeet.service';
 import { PlantsService } from './hochbeet-drag-and-drop/services/plants.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
-import { HochbeetApiActions } from './state/hochbeet.actions';
-import { PlantsApiActions } from './state/plants.actions';
+import { PlantsActions } from './state/plants.actions';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -45,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private matDialog: MatDialog,
     private plantsService: PlantsService,
-    private hochbeetService: HochbeetService,
     private store: Store
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -71,10 +67,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private onSignedIn() {
     this.isLoggedIn = true;
-
-    this.loadPlants()
-      .pipe(switchMap(() => this.loadHochbeete()))
-      .subscribe(() => console.log('loaded'));
+    this.store.dispatch(
+      PlantsActions.loadPlants({ loggedIn: this.isLoggedIn })
+    );
   }
 
   ngOnDestroy(): void {
@@ -85,26 +80,5 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   login() {
     this.matDialog.open(LoginModalComponent);
-  }
-
-  private loadPlants(): Observable<void> {
-    return this.plantsService.loadPlants().pipe(
-      map((plants) => {
-        console.log('loaded plants', { plants });
-        return this.store.dispatch(
-          PlantsApiActions.retrievedPlantsList({ plants })
-        );
-      })
-    );
-  }
-
-  private loadHochbeete(): Observable<void> {
-    return this.hochbeetService.loadHochbeetList().pipe(
-      map((hochbeetList) => {
-        return this.store.dispatch(
-          HochbeetApiActions.retrievedHochbeetList({ hochbeetList })
-        );
-      })
-    );
   }
 }

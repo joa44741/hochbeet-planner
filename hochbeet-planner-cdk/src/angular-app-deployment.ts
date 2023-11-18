@@ -98,8 +98,9 @@ export class AngularAppDeployment extends Construct {
                 spawnSync(
                   [
                     `cd ${props.relativeAngularPath}`,
-                    'npm ci',
-                    `npm run build -- -c ${props.buildConfiguration} --output-path ${outputDir}`,
+                    'npm ci --legacy-peer-deps',
+                    `npm run build -- -c ${props.buildConfiguration}`,
+                    `cp -r ./dist/hochbeet-planner/browser/* ${outputDir}`,
                   ].join(' && '),
                   {
                     shell: true, // for debugging

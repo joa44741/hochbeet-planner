@@ -8,6 +8,7 @@ interface HochbeeteFunctionsProps {
 export class HochbeeteFunctions extends Construct {
 
   readonly getHochbeete: lambda.Alias;
+  readonly storeHochbeet: lambda.Alias;
 
   constructor(scope: Construct, props: HochbeeteFunctionsProps) {
     super(scope, 'hochbeete-functions');
@@ -16,12 +17,25 @@ export class HochbeeteFunctions extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       functionName: 'HochbeetPlanner-GetHochbeete',
       entry: __dirname + '/get-hochbeete.lambda.ts',
+      memorySize: 1024,
+      environment: {
+        HOCHBEETE_TABLE: props.hochbeeteTable.tableName,
+      },
+    });
+    const storeHochbeetFunction = new NodejsFunction(this, 'storeHochbeet', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      functionName: 'HochbeetPlanner-StoreHochbeet',
+      entry: __dirname + '/store-hochbeet.lambda.ts',
+      memorySize: 1024,
       environment: {
         HOCHBEETE_TABLE: props.hochbeeteTable.tableName,
       },
     });
 
-    props.hochbeeteTable.grantReadWriteData(getHochbeeteFunction);
+    props.hochbeeteTable.grantReadData(getHochbeeteFunction);
+    props.hochbeeteTable.grantReadWriteData(storeHochbeetFunction);
     this.getHochbeete = getHochbeeteFunction.addAlias('Live');
+    this.storeHochbeet = storeHochbeetFunction.addAlias('Live');
+
   }
 }
