@@ -63,7 +63,9 @@ export class SingleHochbeetComponent implements OnInit {
 
   hasWarning(plantInBeet: PlantInBeet) {
     return (
-      this.collisionDetectorService.warnings.findIndex((warning) =>
+      this.collisionDetectorService.warnings[
+        this.hochbeet.beetNumber
+      ]?.findIndex((warning) =>
         isPlantInBeetIncluded(plantInBeet, warning.affectedPlants)
       ) !== -1
     );
@@ -96,6 +98,15 @@ export class SingleHochbeetComponent implements OnInit {
   }
 
   save() {
+    this.hochbeet = {
+      ...this.hochbeet,
+      plantsInBeet: this.adjustPositions(
+        this.resizedPlantsInBeet,
+        this.sizeFactor,
+        1
+      )
+    };
+    console.log(this.hochbeet.plantsInBeet);
     this.store.dispatch(
       HochbeetAction.saveHochbeet({ hochbeet: this.hochbeet })
     );
@@ -120,10 +131,12 @@ export class SingleHochbeetComponent implements OnInit {
     this.detectCollisions();
   }
 
-  private resizePlantsInBeet() {
-    this.resizedPlantsInBeet = [...this.hochbeet.plantsInBeet];
-    console.log(this.resizedPlantsInBeet);
-    this.adjustPositions(1, this.sizeFactor);
+  private resizePlantsInBeetWhenLoadedFirst() {
+    this.resizedPlantsInBeet = this.adjustPositions(
+      this.hochbeet.plantsInBeet,
+      1,
+      this.sizeFactor
+    );
   }
 
   isAlignButtonDisabled() {
@@ -146,7 +159,9 @@ export class SingleHochbeetComponent implements OnInit {
   }
 
   warningsToStrings() {
-    return this.collisionDetectorService.warnings.map((warning) => {
+    return this.collisionDetectorService.warnings[
+      this.hochbeet.beetNumber
+    ]?.map((warning) => {
       const plantNamesAndNumbers = warning.affectedPlants
         .map(
           (plantInBeet) =>
@@ -168,7 +183,7 @@ export class SingleHochbeetComponent implements OnInit {
           plantNamesToPlant[plant.plantName] = plant;
         });
         this.loadedPlants = plantNamesToPlant;
-        this.resizePlantsInBeet();
+        this.resizePlantsInBeetWhenLoadedFirst();
         this.detectCollisions();
       }
     });
@@ -177,18 +192,30 @@ export class SingleHochbeetComponent implements OnInit {
   increaseSize() {
     const oldSizeFactor = this.sizeFactor;
     this.sizeFactor++;
-    this.adjustPositions(oldSizeFactor, this.sizeFactor);
+    this.resizedPlantsInBeet = this.adjustPositions(
+      this.resizedPlantsInBeet,
+      oldSizeFactor,
+      this.sizeFactor
+    );
   }
   decreaseSize() {
     if (this.sizeFactor > 1) {
       const oldSizeFactor = this.sizeFactor;
       this.sizeFactor--;
-      this.adjustPositions(oldSizeFactor, this.sizeFactor);
+      this.resizedPlantsInBeet = this.adjustPositions(
+        this.resizedPlantsInBeet,
+        oldSizeFactor,
+        this.sizeFactor
+      );
     }
   }
 
-  private adjustPositions(oldSizeFactor: number, newSizeFactor: number) {
-    this.resizedPlantsInBeet = this.resizedPlantsInBeet.map((plantInBeet) => {
+  private adjustPositions(
+    plantsInBeet: PlantInBeet[],
+    oldSizeFactor: number,
+    newSizeFactor: number
+  ) {
+    return plantsInBeet.map((plantInBeet) => {
       return {
         ...plantInBeet,
         position: {
@@ -237,6 +264,7 @@ export class SingleHochbeetComponent implements OnInit {
   }
   private detectCollisions() {
     this.collisionDetectorService.updateWarnings(
+      this.hochbeet.beetNumber,
       this.loadedPlants,
       this.resizedPlantsInBeet,
       this.sizeFactor

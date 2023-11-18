@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /**
 * Generated theme by Material Theme Generator
@@ -11,28 +11,27 @@
 * Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48IzAyYmM1NiIsIj9lcjwjYjNlYmNjIiwiO2VyPCMwMWE1M2N$LCIlPmBePCNmM2Q0YTAiLCI~ZXI8I2ZiZjJlMyIsIjtlcjwjZWRjMzg0fiwid2Fybj5gXjwjZmYwMDAwIiwiP2VyPCNmZmIzYjMiLCI7ZXI8I2ZmMDAwMH4sIj9UZXh0PCMwMDAwMDAiLCI~PTwjZmFmYWZhIiwiO1RleHQ8I2ZmZmZmZiIsIjs9PCMyYzJjMmN$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxGaWxsZWQiLCI~bmVzcz5mYWxzZSwidmVyc2lvbj4xM30=
 */
 
-
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
 // Fonts
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 
 $fontConfig: (
-    display-4: mat.define-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
-    display-3: mat.define-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
-    display-2: mat.define-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
-    display-1: mat.define-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
-    headline: mat.define-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
-    title: mat.define-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
-    subheading-2: mat.define-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
-    subheading-1: mat.define-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
-    body-2: mat.define-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
-    body-1: mat.define-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
-    button: mat.define-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
-    caption: mat.define-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
-    input: mat.define-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
+    display-4: mat.define-typography-level(112px, 112px, 300, "Roboto", -0.0134em),
+    display-3: mat.define-typography-level(56px, 56px, 400, "Roboto", -0.0089em),
+    display-2: mat.define-typography-level(45px, 48px, 400, "Roboto", 0em),
+    display-1: mat.define-typography-level(34px, 40px, 400, "Roboto", 0.0074em),
+    headline: mat.define-typography-level(24px, 32px, 400, "Roboto", 0em),
+    title: mat.define-typography-level(20px, 32px, 500, "Roboto", 0.0075em),
+    subheading-2: mat.define-typography-level(16px, 28px, 400, "Roboto", 0.0094em),
+    subheading-1: mat.define-typography-level(15px, 24px, 500, "Roboto", 0.0067em),
+    body-2: mat.define-typography-level(14px, 24px, 500, "Roboto", 0.0179em),
+    body-1: mat.define-typography-level(14px, 20px, 400, "Roboto", 0.0179em),
+    button: mat.define-typography-level(14px, 14px, 500, "Roboto", 0.0893em),
+    caption: mat.define-typography-level(12px, 20px, 400, "Roboto", 0.0333em),
+    input: mat.define-typography-level(inherit, 1.125, 400, "Roboto", 1.5px)
 );
 
 // Foreground Elements
@@ -61,7 +60,7 @@ $mat-light-theme-foreground: (
     text: $dark-primary-text,
     slider-min: $dark-primary-text,
     slider-off: rgba($dark-text, 0.26),
-    slider-off-active: $dark-disabled-text,
+    slider-off-active: $dark-disabled-text
 );
 
 // Dark Theme text
@@ -88,7 +87,7 @@ $mat-dark-theme-foreground: (
     text: $light-text,
     slider-min: $light-text,
     slider-off: rgba($light-text, 0.3),
-    slider-off-active: rgba($light-text, 0.3),
+    slider-off-active: rgba($light-text, 0.3)
 );
 
 // Background config
@@ -118,7 +117,7 @@ $mat-light-theme-background: (
     selected-disabled-button: $light-bg-darker-30,
     disabled-button-toggle: $light-bg-darker-10,
     unselected-chip: $light-bg-darker-10,
-    disabled-list-option: $light-bg-darker-10,
+    disabled-list-option: $light-bg-darker-10
 );
 
 // Dark bg
@@ -146,7 +145,7 @@ $mat-dark-theme-background: (
     selected-disabled-button: $dark-bg-lighter-30,
     disabled-button-toggle: $dark-bg-lighter-10,
     unselected-chip: $dark-bg-lighter-20,
-    disabled-list-option: $dark-bg-lighter-10,
+    disabled-list-option: $dark-bg-lighter-10
 );
 
 // Compute font config
@@ -169,13 +168,11 @@ $mat-primary: (
     darker: #01a53c,
     200: #02bc56,
     // For slide toggle,
-    contrast : (main: $light-primary-text,
+    contrast: (main: $light-primary-text,
         lighter: $dark-primary-text,
-        darker: $light-primary-text,
-    )
+        darker: $light-primary-text )
 );
 $theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
-
 
 body {
     --accent-color: #f3d4a0;
@@ -192,13 +189,11 @@ $mat-accent: (
     darker: #edc384,
     200: #f3d4a0,
     // For slide toggle,
-    contrast : (main: $dark-primary-text,
+    contrast: (main: $dark-primary-text,
         lighter: $dark-primary-text,
-        darker: $dark-primary-text,
-    )
+        darker: $dark-primary-text )
 );
 $theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
-
 
 body {
     --warn-color: #ff0000;
@@ -215,13 +210,11 @@ $mat-warn: (
     darker: #ff0000,
     200: #ff0000,
     // For slide toggle,
-    contrast : (main: $light-primary-text,
+    contrast: (main: $light-primary-text,
         lighter: $dark-primary-text,
-        darker: $light-primary-text,
-    )
+        darker: $light-primary-text )
 );
 $theme-warn: mat.define-palette($mat-warn, main, lighter, darker);
-;
 
 $theme: (
     primary: $theme-primary,
@@ -229,7 +222,7 @@ $theme: (
     warn: $theme-warn,
     is-dark: true,
     foreground: $mat-dark-theme-foreground,
-    background: $mat-dark-theme-background,
+    background: $mat-dark-theme-background
 );
 $altTheme: (
     primary: $theme-primary,
@@ -237,7 +230,7 @@ $altTheme: (
     warn: $theme-warn,
     is-dark: false,
     foreground: $mat-light-theme-foreground,
-    background: $mat-light-theme-background,
+    background: $mat-light-theme-background
 );
 
 // Theme Init
@@ -254,22 +247,22 @@ $altTheme: (
 .mat-stroked-button,
 .mat-flat-button {
     padding: 0 1.15em;
-    margin: 0 .65em;
+    margin: 0 0.65em;
     min-width: 3em;
-    line-height: 36.4px
+    line-height: 36.4px;
 }
 
 .mat-standard-chip {
-    padding: .5em .85em;
+    padding: 0.5em 0.85em;
     min-height: 2.5em;
 }
 
 .material-icons {
     font-size: 24px;
-    font-family: 'Material Icons', 'Material Icons';
+    font-family: "Material Icons", "Material Icons";
 
     .mat-badge-content {
-        font-family: 'Roboto';
+        font-family: "Roboto";
     }
 }
 

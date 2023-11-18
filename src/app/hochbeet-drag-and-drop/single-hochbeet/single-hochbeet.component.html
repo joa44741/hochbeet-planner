@@ -1,5 +1,9 @@
 <div class="flex space-x-3" *ngIf="plants$ | async">
   <div class="flex space-x-3">
+    <p class="text-xl">{{ hochbeet.name }}</p>
+  </div>
+  <div class="flex w-14"></div>
+  <div class="flex space-x-3">
     <button
       mat-raised-button
       color="primary"

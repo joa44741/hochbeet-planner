@@ -25,7 +25,7 @@ const createWarning = (
   providedIn: 'root'
 })
 export class CollisionDetectorService {
-  warnings: Warning[] = [];
+  warnings: Record<number, Warning[]> = [];
 
   private detectCollision(
     loadedPlants: Record<string, Plant>,
@@ -49,6 +49,7 @@ export class CollisionDetectorService {
   }
 
   updateWarnings(
+    beetNumber: number,
     loadedPlants: Record<string, Plant>,
     plantsInBeet: PlantInBeet[],
     sizeFactor: number
@@ -116,6 +117,6 @@ export class CollisionDetectorService {
         warningsForUpdate.push(warning);
       }
     }
-    this.warnings = warningsForUpdate;
+    this.warnings[beetNumber] = warningsForUpdate;
   }
 }
