@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map } from 'rxjs';
+import { exhaustMap, map, of, switchMap } from 'rxjs';
 
 import { HochbeetService } from '../hochbeet-drag-and-drop/services/hochbeet.service';
 import { HochbeetAction, HochbeetApiActions } from './hochbeet.actions';
@@ -13,6 +13,12 @@ export const loadHochbeeteEffect = createEffect(
         hochbeetService.loadHochbeetList().pipe(
           map((hochbeetList) =>
             HochbeetApiActions.retrievedHochbeetList({ hochbeetList })
+          ),
+          switchMap((retrieveAction) =>
+            of(
+              retrieveAction,
+              HochbeetApiActions.setLoading({ isLoading: false })
+            )
           )
           //   catchError((error: { message: string }) =>
           //     of(
@@ -21,6 +27,15 @@ export const loadHochbeeteEffect = createEffect(
           //   )
         )
       )
+    );
+  },
+  { functional: true }
+);
+export const loadHochbeeteEffectForLoading = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(HochbeetAction.loadHochbeete),
+      exhaustMap(() => of(HochbeetApiActions.setLoading({ isLoading: true })))
     );
   },
   { functional: true }

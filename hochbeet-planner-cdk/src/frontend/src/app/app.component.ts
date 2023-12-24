@@ -5,13 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Auth, Hub } from 'aws-amplify';
-import { PlantsService } from './hochbeet-drag-and-drop/services/plants.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
+import { selectIsLoading } from './state/hochbeet.selectors';
 import { PlantsActions } from './state/plants.actions';
 @Component({
   selector: 'app-root',
@@ -25,6 +27,7 @@ import { PlantsActions } from './state/plants.actions';
     MatToolbarModule,
     MatDialogModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     NgIf
   ],
   templateUrl: './app.component.html',
@@ -34,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'hochbeet-planner';
   mobileQuery: MediaQueryList;
   isLoggedIn = false;
+  isLoading$? = this.store.select(selectIsLoading);
 
   private _mobileQueryListener: () => void;
 
@@ -41,11 +45,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private media: MediaMatcher,
     private changeDetectorRef: ChangeDetectorRef,
     private matDialog: MatDialog,
-    private plantsService: PlantsService,
     private store: Store
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => this.changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 

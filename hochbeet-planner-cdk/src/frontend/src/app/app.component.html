@@ -33,7 +33,15 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="px-4 pt-4">
-      <router-outlet></router-outlet>
+      @if (isLoading$ | async) {
+        <mat-spinner
+          class="m-auto mt-32"
+          strokeWidth="5"
+          diameter="500"
+        ></mat-spinner>
+      } @else {
+        <router-outlet></router-outlet>
+      }
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

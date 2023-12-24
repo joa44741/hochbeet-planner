@@ -12,6 +12,13 @@ export const selectHochbeetList = createSelector(
   }
 );
 
+export const selectIsLoading = createSelector(
+  selectHochbeetState,
+  (state: Readonly<HochbeetState>) => {
+    return state.isLoading;
+  }
+);
+
 export const selectSelectedHochbeet = createSelector(
   selectHochbeetState,
   (state: Readonly<HochbeetState>) => state.selectedHochbeet

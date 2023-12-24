@@ -3,10 +3,12 @@ import { Hochbeet } from '../types';
 import { HochbeetAction, HochbeetApiActions } from './hochbeet.actions';
 
 export interface HochbeetState {
+  isLoading: boolean;
   hochbeetList: Hochbeet[];
   selectedHochbeet?: Hochbeet;
 }
 export const initialState: Readonly<HochbeetState> = {
+  isLoading: false,
   hochbeetList: []
 };
 
@@ -24,6 +26,13 @@ export const hochbeetReducer = createReducer(
     (state: HochbeetState, { hochbeet }): Readonly<HochbeetState> => ({
       ...state,
       hochbeetList: [...state.hochbeetList, hochbeet]
+    })
+  ),
+  on(
+    HochbeetApiActions.setLoading,
+    (state: HochbeetState, { isLoading }): Readonly<HochbeetState> => ({
+      ...state,
+      isLoading
     })
   )
 );

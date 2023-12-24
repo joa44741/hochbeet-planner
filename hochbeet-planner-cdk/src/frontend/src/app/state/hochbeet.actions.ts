@@ -23,6 +23,7 @@ export const HochbeetAction = createActionGroup({
 export const HochbeetApiActions = createActionGroup({
   source: 'Hochbeet API',
   events: {
+    'Set Loading': props<{ isLoading: boolean }>(),
     'Store Hochbeet': props<{ hochbeet: Hochbeet }>(),
     'Stored Hochbeet': emptyProps(),
     'Retrieved Hochbeet List': props<{

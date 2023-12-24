@@ -1,6 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/alt-text -->
-<div class="m-4 flex space-x-3" *ngIf="plants$ | async as plants">
+<div class="m-4 flex flex-wrap" *ngIf="plants$ | async as plants">
   <mat-card
+    class="m-2 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
     style="
       min-width: 400px;
       border-width: 1px;

@@ -5,7 +5,8 @@
     Beet erstellen
   </button>
 </div>
-<div class="container" *ngIf="hochbeetList$">
+
+<div class="container">
   <!-- <app-hochbeet-canvas></app-hochbeet-canvas> -->
   <mat-card class="p-4 m-4" *ngFor="let hochbeet of hochbeetList$ | async">
     <app-single-hochbeet [hochbeet]="hochbeet"></app-single-hochbeet
