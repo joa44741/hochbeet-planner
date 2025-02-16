@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Plant, PlantInBeet, Warning, WarningReason } from '../../types';
+import {
+  Plant,
+  PlantInBeet,
+  Warning,
+  WarningReason
+} from '../../../../../shared/types';
 import {
   isPlantInBeetIncluded,
   notEmpty,

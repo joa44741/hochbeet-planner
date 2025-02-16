@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { SingleHochbeetComponent } from './single-hochbeet/single-hochbeet.component';
@@ -8,10 +10,13 @@ import { SingleHochbeetComponent } from './single-hochbeet/single-hochbeet.compo
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, take } from 'rxjs';
+import { Hochbeet } from '../../../../shared/types';
 import { HochbeetAction } from '../state/hochbeet.actions';
-import { selectHochbeetList } from '../state/hochbeet.selectors';
+import {
+  selectHochbeetList,
+  selectIsLoading
+} from '../state/hochbeet.selectors';
 import { selectPlants } from '../state/plants.selectors';
-import { Hochbeet } from '../types';
 import { NewHochbeetDialogComponent } from './new-hochbeet-dialog/new-hochbeet-dialog.component';
 
 @Component({
@@ -23,12 +28,14 @@ import { NewHochbeetDialogComponent } from './new-hochbeet-dialog/new-hochbeet-d
     SingleHochbeetComponent,
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ]
 })
 export class HochbeetDragAndDropComponent {
   plants$ = this.store.select(selectPlants);
   hochbeetList$? = this.store.select(selectHochbeetList);
+  isLoading$? = this.store.select(selectIsLoading);
 
   constructor(
     private store: Store,

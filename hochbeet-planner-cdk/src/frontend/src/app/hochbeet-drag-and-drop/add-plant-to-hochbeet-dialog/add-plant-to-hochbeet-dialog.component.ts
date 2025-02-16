@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Store } from '@ngrx/store';
 import { selectPlants } from 'src/app/state/plants.selectors';
-import { FeederType } from 'src/app/types';
+import { FeederType } from '../../../../../shared/types';
 
 @Component({
   selector: 'app-add-plant-to-hochbeet-dialog',

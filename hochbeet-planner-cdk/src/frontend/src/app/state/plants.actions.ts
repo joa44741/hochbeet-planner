@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { Plant } from '../types';
+import { Plant } from '../../../../shared/types';
 
 export const PlantsActions = createActionGroup({
   source: 'Plants',

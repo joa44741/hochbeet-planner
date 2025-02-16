@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Hochbeet } from '../types';
+import { Hochbeet } from '../../../../shared/types';
 import { HochbeetAction, HochbeetApiActions } from './hochbeet.actions';
 
 export interface HochbeetState {

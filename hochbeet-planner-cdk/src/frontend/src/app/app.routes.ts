@@ -8,5 +8,13 @@ export const routes: Routes = [
       import('./hochbeet-drag-and-drop/hochbeet-drag-and-drop.component').then(
         (mod) => mod.HochbeetDragAndDropComponent
       )
-  }
+  },
+  {
+    path: 'own-plants',
+    loadComponent: () =>
+      import('./own-plants/own-plants.component').then(
+        (mod) => mod.OwnPlantsComponent
+      )
+  },
+  { path: '*', redirectTo: 'planner' }
 ];

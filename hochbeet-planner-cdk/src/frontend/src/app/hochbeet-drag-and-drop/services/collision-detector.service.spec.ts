@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Plant, PlantInBeet } from '../../types';
+import { Plant, PlantInBeet } from '../../../../../shared/types';
 import { CollisionDetectorService } from './collision-detector.service';
 
 const brokkoli: Plant = {

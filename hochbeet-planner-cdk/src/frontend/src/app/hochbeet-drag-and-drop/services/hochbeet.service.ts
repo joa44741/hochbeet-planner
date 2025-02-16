@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Hochbeet } from '../../types';
+import { Hochbeet } from '../../../../../shared/types';
 
 @Injectable({
   providedIn: 'root'

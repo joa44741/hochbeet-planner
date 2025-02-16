@@ -5,10 +5,18 @@
     Beet erstellen
   </button>
 </div>
-
+@if (isLoading$ | async) {
+  <mat-spinner
+    class="m-auto mt-32"
+    strokeWidth="5"
+    diameter="500"
+  ></mat-spinner>
+} @else {}
 <div class="container">
   <!-- <app-hochbeet-canvas></app-hochbeet-canvas> -->
-  <mat-card class="p-4 m-4" *ngFor="let hochbeet of hochbeetList$ | async">
-    <app-single-hochbeet [hochbeet]="hochbeet"></app-single-hochbeet
-  ></mat-card>
+  <!-- [style.width.px]="hochbeet.width * 6" -->
+
+  @for (hochbeet of hochbeetList$ | async; track hochbeet) {
+    <app-single-hochbeet [hochbeet]="hochbeet"></app-single-hochbeet>
+  }
 </div>

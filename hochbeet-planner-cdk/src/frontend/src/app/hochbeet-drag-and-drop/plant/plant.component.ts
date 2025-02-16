@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FeederType, Plant, PlantInBeet } from 'src/app/types';
+import { FeederType, Plant, PlantInBeet } from '../../../../../shared/types';
 
 @Component({
   selector: 'app-plant',

@@ -28,20 +28,12 @@
       class="pt-4 px-4"
     >
       <mat-nav-list *ngIf="isLoggedIn; else loggedOutItems">
-        <a mat-list-item routerLink="/planner">Planner</a>
-        <a mat-list-item routerLink="/own-plants">Eigene Pflanzen</a>
+        <a mat-list-item [routerLink]="['/planner']">Planner</a>
+        <a mat-list-item [routerLink]="['/own-plants']">Eigene Pflanzen</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="px-4 pt-4">
-      @if (isLoading$ | async) {
-        <mat-spinner
-          class="m-auto mt-32"
-          strokeWidth="5"
-          diameter="500"
-        ></mat-spinner>
-      } @else {
-        <router-outlet></router-outlet>
-      }
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

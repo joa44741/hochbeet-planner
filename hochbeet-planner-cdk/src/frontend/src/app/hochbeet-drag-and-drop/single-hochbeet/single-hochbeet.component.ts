@@ -17,7 +17,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { HochbeetAction } from 'src/app/state/hochbeet.actions';
 import { selectPlants } from 'src/app/state/plants.selectors';
-import { FeederType, Hochbeet, Plant, PlantInBeet } from '../../types';
+import {
+  FeederType,
+  Hochbeet,
+  Plant,
+  PlantInBeet
+} from '../../../../../shared/types';
 import { AddPlantToHochbeetDialogComponent } from '../add-plant-to-hochbeet-dialog/add-plant-to-hochbeet-dialog.component';
 import { isPlantInBeetIncluded, plantInBeetEqual } from '../plant-in-beet-util';
 import { PlantComponent } from '../plant/plant.component';

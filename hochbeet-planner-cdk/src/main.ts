@@ -9,7 +9,7 @@ export class FrontendStack extends Stack {
     super(scope, id, props);
     new AngularAppDeployment(this, 'angular-app-deployment', {
       buildConfiguration: 'production',
-      relativeAngularPath: '..',
+      relativeAngularPath: './src/frontend',
     });
   }
 }

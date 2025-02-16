@@ -2,7 +2,7 @@ import { Logger } from '@aws-lambda-powertools/logger';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { Hochbeet } from '../types';
+import { Hochbeet } from '../../shared/types';
 
 const logger = new Logger({ serviceName: 'hochbeete-functions' });
 

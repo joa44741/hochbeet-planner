@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Plant } from '../types';
+import { Plant } from '../../../../shared/types';
 import { PlantsApiActions } from './plants.actions';
 
 export const initialState: ReadonlyArray<Plant> = [];

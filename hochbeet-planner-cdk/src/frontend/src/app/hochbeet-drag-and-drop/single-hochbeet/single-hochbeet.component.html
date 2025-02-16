@@ -1,64 +1,65 @@
-<div class="flex space-x-3" *ngIf="plants$ | async">
-  <div class="flex space-x-3">
-    <p class="text-xl">{{ hochbeet.name }}</p>
+<mat-card class="p-4 m-4" [style.width.px]="hochbeet.width * (sizeFactor + 1)">
+  <div class="flex space-x-3" *ngIf="plants$ | async">
+    <div class="flex space-x-3">
+      <p class="text-xl">{{ hochbeet.name }}</p>
+    </div>
+    <div class="flex w-14"></div>
+    <div class="flex space-x-3">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="decreaseSize()"
+        [disabled]="sizeFactor === 1"
+      >
+        -
+      </button>
+      <button mat-raised-button color="primary" (click)="increaseSize()">
+        +
+      </button>
+    </div>
+    <div class="flex w-14"></div>
+    <div class="flex space-x-3">
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="alignSelectedToLeft()"
+        [disabled]="isAlignButtonDisabled()"
+      >
+        <mat-icon>format_align_left</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="alignSelectedToRight()"
+        [disabled]="isAlignButtonDisabled()"
+      >
+        <mat-icon>format_align_right</mat-icon>
+      </button>
+    </div>
+    <div class="flex w-14"></div>
+    <div class="flex space-x-3">
+      <button mat-raised-button color="primary" (click)="save()">Save</button>
+    </div>
   </div>
-  <div class="flex w-14"></div>
-  <div class="flex space-x-3">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="decreaseSize()"
-      [disabled]="sizeFactor === 1"
-    >
-      -
-    </button>
-    <button mat-raised-button color="primary" (click)="increaseSize()">
-      +
-    </button>
-  </div>
-  <div class="flex w-14"></div>
-  <div class="flex space-x-3">
-    <button
-      mat-mini-fab
-      color="primary"
-      (click)="alignSelectedToLeft()"
-      [disabled]="isAlignButtonDisabled()"
-    >
-      <mat-icon>format_align_left</mat-icon>
-    </button>
-    <button
-      mat-mini-fab
-      color="primary"
-      (click)="alignSelectedToRight()"
-      [disabled]="isAlignButtonDisabled()"
-    >
-      <mat-icon>format_align_right</mat-icon>
-    </button>
-  </div>
-  <div class="flex w-14"></div>
-  <div class="flex space-x-3">
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
-  </div>
-</div>
-<div
-  class="hochbeet-border mt-4"
-  [style.width.px]="hochbeet.width * sizeFactor"
-  [style.height.px]="hochbeet.height * sizeFactor"
->
   <div
-    class="hochbeet-boundary"
+    class="hochbeet-border mt-4"
     [style.width.px]="hochbeet.width * sizeFactor"
     [style.height.px]="hochbeet.height * sizeFactor"
   >
-    <ng-container *ngTemplateOutlet="plantTemplate"></ng-container>
+    <div
+      class="hochbeet-boundary"
+      [style.width.px]="hochbeet.width * sizeFactor"
+      [style.height.px]="hochbeet.height * sizeFactor"
+    >
+      <ng-container *ngTemplateOutlet="plantTemplate"></ng-container>
+    </div>
   </div>
-</div>
 
-<div class="container pl-4 mt-4 flex space-x-3">
-  <button mat-raised-button color="primary" (click)="openAddPlantDialog()">
-    Pflanze hinzüfügen
-  </button>
-  <!-- <button
+  <div class="container pl-4 mt-4 flex space-x-3">
+    <button mat-raised-button color="primary" (click)="openAddPlantDialog()">
+      Pflanze hinzüfügen
+    </button>
+    <!-- <button
     *ngFor="let plant of plants$ | async"
     mat-raised-button
     color="primary"
@@ -66,28 +67,29 @@
   >
     Add {{ plant.plantName }}
   </button> -->
-</div>
+  </div>
 
-<mat-card class="mt-4">
-  <mat-card-header>
-    <mat-card-title>Warnings</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p *ngFor="let warning of warningsToStrings()">
-      {{ warning }}
-    </p>
-  </mat-card-content>
+  <mat-card class="mt-4">
+    <mat-card-header>
+      <mat-card-title>Warnings</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngFor="let warning of warningsToStrings()">
+        {{ warning }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-template #plantTemplate>
+    <app-plant
+      *ngFor="let plantInBeet of resizedPlantsInBeet; trackBy: trackByPlant"
+      [plant]="getPlantByName(plantInBeet.plantName)"
+      [plantInBeet]="plantInBeet"
+      [hasWarning]="hasWarning(plantInBeet)"
+      [sizeFactor]="sizeFactor"
+      (dragEnded)="dragEnded($event)"
+      (addPlant)="addPlant($event.plantName)"
+      (removePlant)="removePlant($event)"
+    ></app-plant>
+  </ng-template>
 </mat-card>
-
-<ng-template #plantTemplate>
-  <app-plant
-    *ngFor="let plantInBeet of resizedPlantsInBeet; trackBy: trackByPlant"
-    [plant]="getPlantByName(plantInBeet.plantName)"
-    [plantInBeet]="plantInBeet"
-    [hasWarning]="hasWarning(plantInBeet)"
-    [sizeFactor]="sizeFactor"
-    (dragEnded)="dragEnded($event)"
-    (addPlant)="addPlant($event.plantName)"
-    (removePlant)="removePlant($event)"
-  ></app-plant>
-</ng-template>

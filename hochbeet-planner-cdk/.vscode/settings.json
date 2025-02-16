@@ -28,4 +28,10 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "externalTemplate": true,
+      "style": "scss"
+    }
+  },
 }

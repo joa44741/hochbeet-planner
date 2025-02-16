@@ -1,4 +1,4 @@
-import { PlantInBeet, Warning, WarningReason } from '../types';
+import { PlantInBeet, Warning, WarningReason } from '../../../../shared/types';
 
 export const sortPlantsInBeet = (a: PlantInBeet, b: PlantInBeet) =>
   (a.plantName + a.plantNumber).localeCompare(b.plantName + b.plantNumber);

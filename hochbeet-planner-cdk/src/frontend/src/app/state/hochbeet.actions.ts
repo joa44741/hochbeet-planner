@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Hochbeet, PlantInBeet } from '../types';
+import { Hochbeet, PlantInBeet } from '../../../../shared/types';
 
 // export const PlantsActions = createActionGroup({
 //     source: 'Plants',
